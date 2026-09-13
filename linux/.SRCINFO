@@ -1,0 +1,27 @@
+pkgbase = aeone-games-bin
+	pkgdesc = aeone.games desktop app
+	pkgver = 0.1.0
+	pkgrel = 1
+	url = https://play.aeone.games
+	arch = x86_64
+	license = LicenseRef-aeone-games
+	depends = gtk3
+	depends = nss
+	depends = alsa-lib
+	depends = vulkan-icd-loader
+	optdepends = vulkan-driver: WebGPU rendering (the games require it)
+	optdepends = gamemode: Feral GameMode while a game runs
+	provides = aeone-games
+	conflicts = aeone-games
+	options = !strip
+	options = !debug
+	source = https://github.com/aeone-games/desktop/releases/download/v0.1.0/aeone-games-0.1.0-linux-x64.tar.gz
+	source = aeone.games.desktop
+	source = aeone.games.png
+	source = LICENSE
+	sha256sums = 94a5a0ed8bfa8eebd93300ebcadbcb907ac8c195536fa568e1c3ee0253df0cf0
+	sha256sums = b8c6c027a79e63297b688f15f72c5e5329d2138baafa3311923938ba594e6241
+	sha256sums = fbfede3d2537aec37818ac1cd88251f0a189742005a09b9706c5521392d4b53d
+	sha256sums = 14c093774159b5af502462f7884193be60cc8a5dc338e1e148ae8d1cb89b54f2
+
+pkgname = aeone-games-bin

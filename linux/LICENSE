@@ -1,0 +1,8 @@
+Copyright (c) 2026 aeone.games OÜ. All rights reserved.
+
+aeone.games is proprietary software. Its use is governed by the aeone.games
+Terms of Service: https://play.aeone.games/terms/
+
+It bundles open-source components (Electron, Chromium and their dependencies)
+licensed under their own terms — see LICENSE.electron.txt and
+LICENSES.chromium.html in the installation directory (/opt/aeone-games).
