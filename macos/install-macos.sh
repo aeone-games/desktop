@@ -4,9 +4,10 @@
 #   curl -fsSL https://raw.githubusercontent.com/aeone-games/desktop/main/macos/install-macos.sh | bash
 #
 # Downloads the latest release for this Mac (Apple silicon or Intel), checks it against the
-# release's SHA256SUMS and puts aeone.games.app in ~/Applications — re-run to update, remove
-# with `rm -rf ~/Applications/aeone.games.app`. The app is ad-hoc signed, not notarized; a
-# download made by curl carries no quarantine flag, so Gatekeeper does not stop it.
+# release's SHA256SUMS and puts aeone.games.app in /Applications (admin accounts can write
+# there without sudo), or in ~/Applications when /Applications is not writable — re-run to
+# update, delete the app to remove it. The app is ad-hoc signed, not notarized; a download
+# made by curl carries no quarantine flag, so Gatekeeper does not stop it.
 set -euo pipefail
 
 release="https://github.com/aeone-games/desktop/releases/latest/download"
@@ -32,8 +33,15 @@ echo "$sum  $work/$name" | shasum -a 256 -c - >/dev/null
 
 tar -xzf "$work/$name" -C "$work"
 pkill -x aeone.games 2>/dev/null || true
-mkdir -p "$HOME/Applications"
-rm -rf "$HOME/Applications/aeone.games.app"
-mv "$work/aeone.games.app" "$HOME/Applications/"
+if [ -w /Applications ]; then
+  dest=/Applications
+  # An earlier install went to ~/Applications; drop it so only one copy exists.
+  rm -rf "$HOME/Applications/aeone.games.app"
+else
+  dest="$HOME/Applications"
+  mkdir -p "$dest"
+fi
+rm -rf "$dest/aeone.games.app"
+mv "$work/aeone.games.app" "$dest/"
 
-echo "aeone.games installed — open it from Spotlight (Cmd+Space, 'aeone')."
+echo "aeone.games installed to $dest — open it from Launchpad or Spotlight (Cmd+Space, 'aeone')."

@@ -10,7 +10,7 @@ curl -fsSL https://raw.githubusercontent.com/aeone-games/desktop/main/linux/inst
 
 ## macOS (Apple silicon and Intel)
 
-Paste into Terminal. Installs to `~/Applications/aeone.games.app`.
+Paste into Terminal. Installs to `/Applications/aeone.games.app` (or `~/Applications` when `/Applications` is not writable).
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/aeone-games/desktop/main/macos/install-macos.sh | bash
