@@ -1,39 +1,42 @@
 # Maintainer: aeone.games OÜ <team@aeone.games>
 #
-# TEMPLATE. The desktop release step fills the @…@ placeholders and publishes the result
-# to aeone-games/desktop (linux/PKGBUILD) — edit this file in the playtest repo
-# (tools/electron/linux/), never the published copy.
+# TEMPLATE. The desktop release step (tools/deploy-desktop.ts) fills the @…@ placeholders and
+# publishes the result to aeone-games/desktop (linux/PKGBUILD) — edit this file in the playtest
+# repo (tools/desktop/linux/), never the published copy.
 pkgname=aeone-games-bin
-pkgver=0.1.14
+pkgver=0.1.15
 pkgrel=1
 pkgdesc="aeone.games desktop app"
 arch=('x86_64')
 url="https://play.aeone.games"
 license=('LicenseRef-aeone-games')
-depends=('gtk3' 'nss' 'alsa-lib' 'vulkan-icd-loader')
-optdepends=('vulkan-driver: WebGPU rendering (the games require it)'
-            'gamemode: Feral GameMode while a game runs')
+# The native app (stardust-shell): Vulkan through wgpu, sound through ALSA (PipeWire / Pulse
+# answer it), the window through winit (Wayland or X11, both opened at run time).
+depends=('vulkan-icd-loader' 'alsa-lib' 'libxkbcommon')
+optdepends=('vulkan-driver: the games render through Vulkan'
+            'wayland: a native Wayland window'
+            'libx11: an X11 window')
 provides=('aeone-games')
 conflicts=('aeone-games')
-# Prebuilt Electron: stripping or splitting debug info from Chromium's binaries breaks them.
+# The app ships its own glibc loader beside the binary (tools/build-native.ts says why);
+# stripping or splitting it breaks the bundled loader.
 options=('!strip' '!debug')
 source=("https://github.com/aeone-games/desktop/releases/download/v${pkgver}/aeone-games-${pkgver}-linux-x64.tar.gz"
         'aeone.games.desktop'
         'aeone.games.png'
         'LICENSE')
-sha256sums=('66f8bc5feab12f3e61173606d106f8d3daa5adcb1d79f93a73c3a48fbbc26c02'
+sha256sums=('843c005c30f56b44b3d44b61ec6f3535f7fa0fb07b891b40ca5c2710adb6d40f'
             'b8c6c027a79e63297b688f15f72c5e5329d2138baafa3311923938ba594e6241'
             'fbfede3d2537aec37818ac1cd88251f0a189742005a09b9706c5521392d4b53d'
-            '14c093774159b5af502462f7884193be60cc8a5dc338e1e148ae8d1cb89b54f2')
+            '9a23a56462b6707ab2502a1a66712773224ac5effe870ea17261a790ebe5c2fe')
 
 package() {
   install -dm755 "$pkgdir/opt/aeone-games"
   cp -a "aeone-games-${pkgver}-linux-x64/." "$pkgdir/opt/aeone-games/"
-  # chrome-sandbox keeps its packaged mode: Arch kernels allow unprivileged user
-  # namespaces, so Chromium sandboxes without a setuid-root helper.
+  # run.sh resolves its own path through the link and logs to the user's state dir when its
+  # folder is not writable (it is not, under /opt).
   install -dm755 "$pkgdir/usr/bin"
-  ln -s /opt/aeone-games/aeone-games "$pkgdir/usr/bin/aeone-games"
-  # The entry's basename is the Wayland app_id main.mjs reports for packaged runs.
+  ln -s /opt/aeone-games/run.sh "$pkgdir/usr/bin/aeone-games"
   install -Dm644 aeone.games.desktop "$pkgdir/usr/share/applications/aeone.games.desktop"
   install -Dm644 aeone.games.png "$pkgdir/usr/share/icons/hicolor/512x512/apps/aeone.games.png"
   install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
