@@ -4,7 +4,7 @@
 # publishes the result to aeone-games/desktop (linux/PKGBUILD) — edit this file in the playtest
 # repo (tools/desktop/linux/), never the published copy.
 pkgname=aeone-games-bin
-pkgver=0.1.20
+pkgver=0.1.21
 pkgrel=1
 pkgdesc="aeone.games desktop app"
 arch=('x86_64')
@@ -25,7 +25,7 @@ source=("https://github.com/aeone-games/desktop/releases/download/v${pkgver}/aeo
         'aeone.games.desktop'
         'aeone.games.png'
         'LICENSE')
-sha256sums=('806da5178ba4e65d8a3f51aebc5a148e1746222519060f667d0365a33d803307'
+sha256sums=('346618b4fc8f3eac6ea3866fbe18e2e2da7d6d07aa17feedb896076ba9105fdb'
             'b8c6c027a79e63297b688f15f72c5e5329d2138baafa3311923938ba594e6241'
             'fbfede3d2537aec37818ac1cd88251f0a189742005a09b9706c5521392d4b53d'
             '9a23a56462b6707ab2502a1a66712773224ac5effe870ea17261a790ebe5c2fe')
